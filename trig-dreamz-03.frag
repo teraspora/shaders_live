@@ -159,7 +159,8 @@ void main(void) {
     // ==================================================================
     
     float t = (48. + u_time) * 32. * (nsin(u_time / 64.) + 0.5);
-    float scale =  0.3 + 256. * nmouse().x + 0.5 * nsin(t / 32.);
+    //float scale =  0.3 + 256. * nmouse().x + 0.5 * nsin(t / 32.);
+    float scale = exp2(nmouse().x * 8.) * 2.;
     float asp = u_resolution.x / u_resolution.y;
     uv = gl_FragCoord.xy /u_resolution.yy - vec2(asp, 1.) * .5;
     float uvl = length(uv);		// save to use later framing viewport
@@ -183,7 +184,7 @@ void main(void) {
     // Make the frame a disc:
     float k = 0.0 + ncos(t / 400.);
     col = step(uvl, k) * col;
-    // col = wavyStar (uvl, 0.15, 5., k) * col;
+    col *= wavyStar (uvl, 0.15, 5., k) * col;
     if (uvl > k) {
         for (int i = 0; i < 5; i++) {
       	 	vec2 pos = vec2(asp * (gold_noise(vec2(floor(u_time / 43.), 2. * floor(u_time / 29.)), 1.) - 0.5),
@@ -194,56 +195,60 @@ void main(void) {
     
     vec2 pq = uv + vec2(asp, 1.) / 2.;
     pq.x /= asp;
+    pq = rotate(pq, u_time / 5.);
     
-    int i = int(mod(floor(u_time / 16.), 9.));
-    switch (i) {
-        case 0:
-            if (u_tex0Resolution != vec2(0.0)) {
-                img = texture2D(u_tex0, pq);
-            }
-            break;
-        case 1:
-            if (u_tex1Resolution != vec2(0.0)) {
-                img = texture2D(u_tex1, pq);
-            }
-            break;
-        case 2:
-            if (u_tex2Resolution != vec2(0.0)) {
-                img = texture2D(u_tex2, pq);
-            }
-            break;
-        case 3:
-            if (u_tex3Resolution != vec2(0.0)) {
-                img = texture2D(u_tex3, pq);
-            }
-            break;
-        case 4:
-            if (u_tex4Resolution != vec2(0.0)) {
-                img = texture2D(u_tex4, pq);
-            }
-            break;
-        case 5:
-            if (u_tex5Resolution != vec2(0.0)) {
-                img = texture2D(u_tex5, pq);
-            }
-            break;
-        case 6:
-            if (u_tex6Resolution != vec2(0.0)) {
-                img = texture2D(u_tex6, pq);
-            }
-            break;
-        case 7:
-            if (u_tex7Resolution != vec2(0.0)) {
-                img = texture2D(u_tex7, pq);
-            }
-            break;
-        case 8:
-            if (u_tex8Resolution != vec2(0.0)) {
-                img = texture2D(u_tex8, pq);
-            }
-            break;
-        default:
-            ;
+    // int i = int(mod(floor(u_time / 16.), 9.));
+    // switch (i) {
+    //     case 0:
+    //         if (u_tex0Resolution != vec2(0.0)) {
+    //             img = texture2D(u_tex0, pq);
+    //         }
+    //         break;
+    //     case 1:
+    //         if (u_tex1Resolution != vec2(0.0)) {
+    //             img = texture2D(u_tex1, pq);
+    //         }
+    //         break;
+    //     case 2:
+    //         if (u_tex2Resolution != vec2(0.0)) {
+    //             img = texture2D(u_tex2, pq);
+    //         }
+    //         break;
+    //     case 3:
+    //         if (u_tex3Resolution != vec2(0.0)) {
+    //             img = texture2D(u_tex3, pq);
+    //         }
+    //         break;
+    //     case 4:
+    //         if (u_tex4Resolution != vec2(0.0)) {
+    //             img = texture2D(u_tex4, pq);
+    //         }
+    //         break;
+    //     case 5:
+    //         if (u_tex5Resolution != vec2(0.0)) {
+    //             img = texture2D(u_tex5, pq);
+    //         }
+    //         break;
+    //     case 6:
+    //         if (u_tex6Resolution != vec2(0.0)) {
+    //             img = texture2D(u_tex6, pq);
+    //         }
+    //         break;
+    //     case 7:
+    //         if (u_tex7Resolution != vec2(0.0)) {
+    //             img = texture2D(u_tex7, pq);
+    //         }
+    //         break;
+    //     case 8:
+    //         if (u_tex8Resolution != vec2(0.0)) {
+    //             img = texture2D(u_tex8, pq);
+    //         }
+    //         break;
+    //     default:
+    //         ;
+    // }
+    if (u_tex0Resolution != vec2(0.0)) {
+        img = texture2D(u_tex0, pq);
     }
     col = mix(col, img.rgb, nsin(t / 256.));
     // col = img.rgb;

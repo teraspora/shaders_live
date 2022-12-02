@@ -8,6 +8,24 @@ uniform float u_time;
 
 uniform sampler2D u_tex0;
 uniform vec2 u_tex0Resolution;
+uniform sampler2D u_tex1;
+uniform vec2 u_tex1Resolution;
+uniform sampler2D u_tex2;
+uniform vec2 u_tex2Resolution;
+uniform sampler2D u_tex3;
+uniform vec2 u_tex3Resolution;
+uniform sampler2D u_tex4;
+uniform vec2 u_tex4Resolution;
+uniform sampler2D u_tex5;
+uniform vec2 u_tex5Resolution;
+uniform sampler2D u_tex6;
+uniform vec2 u_tex6Resolution;
+uniform sampler2D u_tex7;
+uniform vec2 u_tex7Resolution;
+uniform sampler2D u_tex8;
+uniform vec2 u_tex8Resolution;
+
+vec4 img;
 
 #define PI 3.1415922653589793234
 
@@ -309,15 +327,65 @@ void main(void) {
 
 
 
-    vec2 st = uv + vec2(asp, 1.) / 2.;
-    st.x /= asp;
+    vec2 pq = uv + vec2(asp, 1.) / 2.;
+    pq.x /= asp;
     // vec2 st = (uv * scale + vec2(asp, 1.) / 2.) / scale;
 
-    if (u_tex0Resolution != vec2(0.0) ) {
-        vec4 img = texture2D(u_tex0, st);
-        col = mix(col,img.rgb,img.a);
+    if (length(col) > 1. && col != black) {
+        int i = int(mod(floor(u_time / 32.), 9.));     // alternate images and cycles with no image
+        switch (i) {
+            case 0:
+                if (u_tex0Resolution != vec2(0.0)) {
+                    img = texture2D(u_tex0, pq);
+                }
+                break;
+            case 1:
+                if (u_tex1Resolution != vec2(0.0)) {
+                    img = texture2D(u_tex1, pq);
+                }
+                break;
+            case 2:
+                if (u_tex2Resolution != vec2(0.0)) {
+                    img = texture2D(u_tex2, pq);
+                }
+                break;
+            case 3:
+                if (u_tex3Resolution != vec2(0.0)) {
+                    img = texture2D(u_tex3, pq);
+                }
+                break;
+            case 4:
+                if (u_tex4Resolution != vec2(0.0)) {
+                    img = texture2D(u_tex4, pq);
+                }
+                break;
+            case 5:
+                if (u_tex5Resolution != vec2(0.0)) {
+                    img = texture2D(u_tex5, pq);
+                }
+                break;
+            case 6:
+                if (u_tex6Resolution != vec2(0.0)) {
+                    img = texture2D(u_tex6, pq);
+                }
+                break;
+            case 7:
+                if (u_tex7Resolution != vec2(0.0)) {
+                    img = texture2D(u_tex7, pq);
+                }
+                break;
+            case 8:
+                if (u_tex8Resolution != vec2(0.0)) {
+                    img = texture2D(u_tex8, pq);
+                }
+                break;
+            default:
+                ;
+        }
+        col = mix(col, img.rgb, img.a);
+        // col = img.rgb;
     }
-
+    
     float cdelta = mod(u_time, 32.) / 32.;
     col = changeHue(col, fract(hue(col) + cdelta)); 
 

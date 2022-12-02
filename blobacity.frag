@@ -195,9 +195,14 @@ vec3 makeBlob(vec2 v, vec2 offset, float edge, vec3 col1, vec3 col2, float time)
     uv /= scale;
 
     float stage = mod(u_time, 32.);
-    if (stage > 24.) {
-            stage = (stage - 24.) * HALF_PI / 2.;
-            uv.x /= (1. + sin(stage) * 0.6);
+    float nstage;
+    if (stage > 20. && stage < 28.) {
+            nstage = (stage - 24.) * HALF_PI * 2.;
+            uv.y /= (1. + sin(nstage) * 0.4);
+    }
+    if (stage > 24. && stage < 28.) {
+            nstage = (stage - 24.) * HALF_PI / 2.;
+            uv.x /= (1. + sin(stage) * 0.6);    
     }
 
     float uvy = uv.y;

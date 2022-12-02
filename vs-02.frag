@@ -213,7 +213,7 @@ void main(void) {
     float blackThreshold = 0.3 + (1. * nmouse().y + 0.25); // 1.1; // Best varies; try between 1.0 and 1.3
     vec3 col;
     float t = mod(u_time, 200.);
-    t /= 3.;
+    t /= 2.;
     scale *= 0.5 + ncos(t / 43.);
     bool polygon = floor(mod(t / 16., 2.));
     float asp = u_resolution.x / u_resolution.y;

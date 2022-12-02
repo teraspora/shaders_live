@@ -154,8 +154,9 @@ float wavyStar (float r, float amp, float freq, float meanVal) {
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void main(void) {
     // MUTABLE PARAMETERS:
-    float blackThreshold = 0.8 + (nmouse().y + 0.25); // 1.1; // Best varies; try between 1.0 and 1.3
-    
+    float blackThreshold = 1.0 + (nmouse().y * 0.5); // 1.1; // Best varies; try between 1.0 and 1.3
+    //float blackThreshold = 0. + (4. * nmouse().y + 0.25);
+    //float blackThreshold = 1.3 + nmouse().y;
     // ==================================================================
     
     float t = (48. + u_time * 64.);
@@ -257,5 +258,5 @@ void main(void) {
     
     // col = pow(col, vec3(1./2.2));
     col = saturate(col);
-    gl_FragColor = vec4(col, 1.);
+    gl_FragColor = vec4(col.brg, 1.);
 }

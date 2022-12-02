@@ -21,7 +21,7 @@ const vec3 cyan = vec3(0., 0.4, 1.0);
 const vec3 magenta = vec3(1.0, 0., 1.0);
 const vec3 gold = vec3(1.0, 0.84, 0.66);
 
-vec3[] cols = vec3[](white, crimson, yellow, magenta, gold, cyan, orange);
+// vec3[] cols = vec3[](white, crimson, yellow, magenta, gold, cyan, orange);
 vec3 col;
 
 // ==================================================================
@@ -245,8 +245,8 @@ void main(void) {
     float rotationSense2 = -1.; //  - 0.1 *sin(length(uv));
     // ==================================================================
     
-    // vec2 st = rotate(uv, t * 0.1) + mouse;
-    // float m;
+    vec2 st = rotate(uv, t * 0.1) + mouse;
+    float m;
 
     // // col = 0.5 + 0.5 * cos(t / 16. + uv.xyx + vec3(1.,2.,4.));
 
@@ -277,30 +277,30 @@ void main(void) {
     //     col *= vec3(m);
     // }
     
-    // st = abs(uv); // + vec2(0.9, 0.7);
-    // st = rotate(st, t / 5.5);    
-    // m = cog_yes(st, nafcos(0.5, 5., st.x), nafcos(0.7, 3., sin(u_time / 3.)), nafcos(0.2, 11., st.y));
-    // col *= vec3(m);
+    st = abs(uv); // + vec2(0.9, 0.7);
+    st = rotate(st, t / 5.5);    
+    m = cog_yes(st, nafcos(0.5, 5., st.x), nafcos(0.7, 3., sin(u_time / 3.)), nafcos(0.2, 11., st.y));
+    col *= vec3(m);
     
-    //col.g = step(1., minkl(uv, 2.0));
+    col.g = step(1., minkl(uv, 2.0));
 
-    // col *= 1. - vec3(length(uv), 0.2, minkl(uv, 2.));
+    col *= 1. - vec3(length(uv), 0.2, minkl(uv, 2.));
     
-    // uv = rotate(uv, mod((uv.x + uv.y) * 32. * sin(t / 256.), 2. * PI));
+    uv = rotate(uv, mod((uv.x + uv.y) * 32. * sin(t / 256.), 2. * PI));
     // ========================================================================
 
-    // uv.x *= sin(uv.x * 24. * cos(t)) - 2. * cos(3. * t) * uv.y;
-    // uv.x *= cos(uv.y * 17. * cos(t / 3.)) - 3. * cos(5. * t) * uv.x;
+    uv.x *= sin(uv.x * 24. * cos(t)) - 2. * cos(3. * t) * uv.y;
+    uv.x *= cos(uv.y * 17. * cos(t / 3.)) - 3. * cos(5. * t) * uv.x;
 
-    // col = step(length(uv), 0.6) * crimson;
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // col += 0.5 * cos(t / 3. + uv.xyx + vec3(1.,2.,4.));
-    // col = vec3(1.);
+    col = step(length(uv), 0.6) * crimson;
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    col += 0.5 * cos(t / 3. + uv.xyx + vec3(1.,2.,4.));
+    col = vec3(1.);
     col = 0.5 + 0.5 * cos(t / 3. + uv.xyx + vec3(0., 2., 4.));
     uv.y += 0.1 * nsin(t * 2.) * sin(uv.x * 36. * sin(t / 2.));
-    // uv.x += 0.3 * nsin(t * 3.) * sin(uv.y * 11. * sin(t / 5.));
-    // uv = rotate(uv, 4.5 * mod((uv.x + uv.y) * 3. * sin(t / 23.), 2. * PI));
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    uv.x += 0.3 * nsin(t * 3.) * sin(uv.y * 11. * sin(t / 5.));
+    uv = rotate(uv, 4.5 * mod((uv.x + uv.y) * 3. * sin(t / 23.), 2. * PI));
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
 
 
@@ -310,7 +310,7 @@ void main(void) {
 
 
 
-    vec2 st = uv + vec2(asp, 1.) / 2.;
+    st = uv + vec2(asp, 1.) / 2.;
     st.x /= asp;
     // vec2 st = (uv * scale + vec2(asp, 1.) / 2.) / scale;
 
